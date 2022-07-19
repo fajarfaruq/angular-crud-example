@@ -1,0 +1,8 @@
+# Ignore env on backend 
+backend/env
+
+# Ignore __pycache__/ folder
+__pycache__/
+
+# Ignore .DS_Store
+.DS_Store
