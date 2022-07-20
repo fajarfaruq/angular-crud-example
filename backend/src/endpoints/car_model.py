@@ -1,7 +1,7 @@
 from operator import and_
 from fastapi import FastAPI, APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import exc
+from sqlalchemy import asc, exc
 from database import get_db
 from src.schemas.car_model import CarModelRequest
 from src.models.car_model import CarModel
@@ -13,6 +13,20 @@ router = APIRouter(
     tags=["Car Model"],
     responses={404: {"description": "Not found"}},
 )
+
+@router.get("/all")
+def get_all_car_model(db: Session = Depends(get_db)):
+    """function get_all_car_model using for get all car model 
+
+    Args:
+        db (Session, optional): Call db session. Defaults to Depends(get_db).
+
+    Returns:
+        _type_: Get all of car brand 
+    """    
+    list_car_model = db.query(CarModel).order_by(asc(CarModel.name)).all()
+
+    return list_car_model
 
 @router.get("/filter-by-id/{car_model_id}")
 def get_by_id(car_model_id: int, db: Session = Depends(get_db)):
