@@ -14,7 +14,7 @@ const routes: Routes = [
       { path : 'detail/:id', component: DetailCarBrandsComponent},
       { path : 'list' , component:ListCarBrandsComponent},
       { path : 'delete/:id', component:DeleteCarBrandsComponent},
-      { path : 'edit', component:EditCarBrandsComponent}
+      { path : 'edit/:id', component:EditCarBrandsComponent}
     ]
   },
 ];

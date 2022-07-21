@@ -1,1 +1,55 @@
-<p>detail-car-brands works!</p>
+<div class="inline-flex space-x-2 items-center justify-start w-full mt-2">
+    <img mat-button (click)="backClicked()" class="w-6 h-3/4 rounded-lg cursor-pointer"
+        src="./assets/img/icon/ic_baseline-keyboard-arrow-left.png" />
+    <p class="text-2xl font-semibold leading-loose text-gray-700">Brand Details</p>
+</div>
+<div class="inline-flex flex-col space-y-4 items-start justify-start w-full">
+    <div class="inline-flex items-center justify-start py-3 bg-white" style="width: 552px; height: 48px;">
+        <p class="text-sm font-semibold leading-normal text-gray-800">Brand Logo</p>
+    </div>
+    <div class="inline-flex items-center justify-center w-28 h-28 py-12 px-4 bg-white rounded-full">
+        <div class="flex items-center justify-center flex-1 h-full">
+            <div class="inline-flex flex-col items-start justify-start flex-1 h-full">
+                <div class="w-2 h-1.5 bg-green-500 rounded-full"></div>
+                <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                <img class="w-full h-2/3 rounded-lg"
+                    src="https://via.placeholder.com/88.03741455078125x16.072261810302734" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="inline-flex flex-col space-y-4 items-start justify-start w-full">
+    <div class="inline-flex items-center justify-start py-3 bg-white" style="width: 552px; height: 48px;">
+        <p class="text-sm font-semibold leading-normal text-gray-800">Brand Details</p>
+    </div>
+    <div class="inline-flex space-x-8 items-start justify-start">
+        <div class="inline-flex flex-col space-y-1 items-start justify-start w-60 h-full">
+            <p class="w-full text-sm leading-snug text-gray-500">Brand Name</p>
+            <div class="inline-flex items-center justify-start w-full flex-1 py-2 pr-32 bg-white rounded">
+                <p class="text-sm font-semibold leading-snug text-gray-800">UCARS PTE LTD</p>
+            </div>
+        </div>
+        <div class="inline-flex flex-col space-y-2.5 items-start justify-start">
+            <p class="w-full text-sm leading-snug text-gray-500">Brand Status</p>
+            <div class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full">
+                <div class="w-4 h-2/3">
+                    <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-checked.png" />
+                </div>
+                <p class="text-base font-medium leading-normal text-green-700">Active</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col space-y-1 items-start justify-start" style="width: 552px; height: 126px;">
+        <p class="text-sm leading-snug text-gray-500" style="width: 552px;">Brand Description</p>
+        <div class="inline-flex items-start justify-start pr-96 pt-2 pb-16 bg-white rounded"
+            style="width: 552px; height: 100px;">
+            <p class="text-sm font-semibold leading-snug text-gray-800">Ucars brand description</p>
+        </div>
+    </div>
+</div>
+
+<a href="car-brands/edit/1" class="flex items-center px-4 py-2 bg-blue-700 rounded w-36">
+    <div class="flex space-x-3 items-center justify-start">
+        <p class="text-sm font-medium leading-snug text-white">Edit Information</p>
+    </div>
+</a>

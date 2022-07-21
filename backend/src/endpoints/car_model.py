@@ -1,8 +1,9 @@
-from operator import and_
+from operator import and_, or_
 from fastapi import FastAPI, APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import asc, exc
+from sqlalchemy import asc, exc, func
 from database import get_db
+from src.models.car_brand import CarBrand
 from src.schemas.car_model import CarModelRequest
 from src.models.car_model import CarModel
 from datetime import datetime 
@@ -24,7 +25,78 @@ def get_all_car_model(db: Session = Depends(get_db)):
     Returns:
         _type_: Get all of car brand 
     """    
-    list_car_model = db.query(CarModel).order_by(asc(CarModel.name)).all()
+    list_car_model = db.query(CarModel.id, \
+                            CarBrand.name.label("brand_name"), \
+                            CarModel.name, \
+                            CarModel.status, \
+                            CarModel.create_at, \
+                            CarModel.update_at) \
+                       .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
+                       .order_by(asc(CarBrand.name)) \
+                       .all()
+
+    return list_car_model
+
+@router.get("/all/{keyword}")
+def get_by_keyword(keyword: str, db: Session = Depends(get_db)):
+    """function get_by_keyword using for get all model car keyword
+
+    Args:
+        keyword (str): Parameter keyword
+        db (Session, optional): Call db session. Defaults to Depends(get_db).
+
+    Raises:
+        HTTPException: Error code 404 if car model name is not exist
+
+    Returns:
+        _type_:  Model CarModel (All field of car_model table)
+    """   
+    list_car_model = db.query(CarModel.id, \
+                            CarBrand.name.label("brand_name"), \
+                            CarModel.name, \
+                            CarModel.status, \
+                            CarModel.create_at, \
+                            CarModel.update_at) \
+                       .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
+                       .filter(or_( \
+                                    func.lower(CarBrand.name).like("%{}%".format(keyword.lower())), \
+                                    func.lower(CarModel.name).like("%{}%".format(keyword.lower())), \
+                        )) \
+                       .order_by(asc(CarBrand.name)) \
+                       .all()
+                       
+    if len(list_car_model) == 0:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
+
+    return list_car_model
+
+@router.get("/filter-by-brand-name/{car_brand_name}")
+def get_by_brand_name(car_brand_name: str, db: Session = Depends(get_db)):
+    """function get_by_brand_name using for get all model car by brand name
+
+    Args:
+        car_model_name (str): Parameter car model name
+        db (Session, optional): Call db session. Defaults to Depends(get_db).
+
+    Raises:
+        HTTPException: Error code 404 if car model name is not exist
+
+    Returns:
+        _type_:  Model CarModel (All field of car_model table)
+    """   
+    list_car_model = db.query(CarModel.id, \
+                            CarBrand.name.label("brand_name"), \
+                            CarModel.name, \
+                            CarModel.status, \
+                            CarModel.create_at, \
+                            CarModel.update_at) \
+                       .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
+                       .filter(func.lower(CarBrand.name) == car_brand_name.lower()) \
+                       .order_by(asc(CarBrand.name)) \
+                       .all()
+                       
+    if len(list_car_model) == 0:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
 
     return list_car_model
 
@@ -42,7 +114,16 @@ def get_by_id(car_model_id: int, db: Session = Depends(get_db)):
     Returns:
         _type_: Model CarModel (All field of car_model table)
     """    
-    list_car_model = db.query(CarModel).filter(CarModel.id == car_model_id).first()
+    list_car_model = db.query(CarModel.id, \
+                        CarBrand.name.label("brand_name"), \
+                        CarModel.name, \
+                        CarModel.status, \
+                        CarModel.create_at, \
+                        CarModel.update_at) \
+                    .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
+                    .filter(CarModel.id == car_model_id) \
+                    .first()
+
     if list_car_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
 
@@ -62,7 +143,17 @@ def get_by_name(car_model_name: str, db: Session = Depends(get_db)):
     Returns:
         _type_:  Model CarModel (All field of car_model table)
     """   
-    list_car_model = db.query(CarModel).filter(CarModel.name == car_model_name).first()
+    
+    list_car_model = db.query(CarModel.id, \
+                    CarBrand.name.label("brand_name"), \
+                    CarModel.name, \
+                    CarModel.status, \
+                    CarModel.create_at, \
+                    CarModel.update_at) \
+                .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
+                .filter(CarModel.name == car_model_name) \
+                .first()
+
     if list_car_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
 

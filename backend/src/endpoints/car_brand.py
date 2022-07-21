@@ -1,10 +1,11 @@
-from operator import and_
+from operator import and_, or_
 from fastapi import FastAPI, APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import asc, exc
+from sqlalchemy import asc, exc, func
 from database import get_db
 from src.schemas.car_brand import CarBrandRequest
 from src.models.car_brand import CarBrand
+from src.models.car_model import CarModel
 from datetime import datetime 
 
 # Define main route of car brand
@@ -24,7 +25,60 @@ def get_all_car_brand(db: Session = Depends(get_db)):
     Returns:
         _type_: Get all of car brand 
     """    
-    list_car_brand = db.query(CarBrand).order_by(asc(CarBrand.name)).all()
+    list_car_brand = db.query(CarBrand.id, \
+                              CarBrand.name, \
+                              CarBrand.logo, \
+                              CarBrand.description, \
+                              CarBrand.status, \
+                              CarBrand.create_at, \
+                              CarBrand.update_at,
+                              func.count(CarModel.id).label("count_model")) \
+                       .join(CarModel,CarBrand.id == CarModel.car_brand_id, isouter=True) \
+                       .group_by(CarBrand.id, \
+                              CarBrand.name, \
+                              CarBrand.logo, \
+                              CarBrand.description, \
+                              CarBrand.status, \
+                              CarBrand.create_at, \
+                              CarBrand.update_at) \
+                       .order_by(asc(CarBrand.name)) \
+                       .all()
+
+    return list_car_brand
+
+@router.get("/all/{keyword}")
+def get_by_keyword(keyword: str, db: Session = Depends(get_db)):
+    """function get_by_keyword using for get all car brand by keyword
+
+    Args:
+        keyword (str): Parameter for keyword
+        db (Session, optional): Call db session. Defaults to Depends(get_db).
+
+    Returns:
+        _type_: Get all of car brand 
+    """    
+    list_car_brand = db.query(CarBrand.id, \
+                              CarBrand.name, \
+                              CarBrand.logo, \
+                              CarBrand.description, \
+                              CarBrand.status, \
+                              CarBrand.create_at, \
+                              CarBrand.update_at,
+                              func.count(CarModel.id).label("count_model")) \
+                       .join(CarModel,CarBrand.id == CarModel.car_brand_id, isouter=True) \
+                       .filter(or_( \
+                                    func.lower(CarBrand.name).like("%{}%".format(keyword.lower())), \
+                                    func.lower(CarBrand.description).like("%{}%".format(keyword.lower())), \
+                        )) \
+                       .group_by(CarBrand.id, \
+                              CarBrand.name, \
+                              CarBrand.logo, \
+                              CarBrand.description, \
+                              CarBrand.status, \
+                              CarBrand.create_at, \
+                              CarBrand.update_at) \
+                       .order_by(asc(CarBrand.name)) \
+                       .all()
 
     return list_car_brand
 
@@ -42,7 +96,25 @@ def get_by_id(car_brand_id: int, db: Session = Depends(get_db)):
     Returns:
         _type_: Model CarBrand (All field of car_brand table)
     """    
-    list_car_brand = db.query(CarBrand).filter(CarBrand.id == car_brand_id).first()
+    list_car_brand = db.query(CarBrand.id, \
+                            CarBrand.name, \
+                            CarBrand.logo, \
+                            CarBrand.description, \
+                            CarBrand.status, \
+                            CarBrand.create_at, \
+                            CarBrand.update_at,
+                            func.count(CarModel.id).label("count_model")) \
+                    .join(CarModel,CarBrand.id == CarModel.car_brand_id, isouter=True) \
+                    .filter(CarBrand.id == car_brand_id) \
+                    .group_by(CarBrand.id, \
+                            CarBrand.name, \
+                            CarBrand.logo, \
+                            CarBrand.description, \
+                            CarBrand.status, \
+                            CarBrand.create_at, \
+                            CarBrand.update_at) \
+                    .first()
+
     if list_car_brand is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car brand is not exists")
 
@@ -50,7 +122,7 @@ def get_by_id(car_brand_id: int, db: Session = Depends(get_db)):
 
 @router.get("/filter-by-name/{car_brand_name}")
 def get_by_name(car_brand_name: str, db: Session = Depends(get_db)):
-    """function get_by_name using for get brand car by name
+    """function get_by_name using for get car brand by name
 
     Args:
         car_brand_name (str): Parameter car brand name
@@ -58,12 +130,30 @@ def get_by_name(car_brand_name: str, db: Session = Depends(get_db)):
 
     Raises:
         HTTPException: Error code 404 if car brand name is not exist
-        HTTPException: Error code 500 if something problem in database
 
     Returns:
         _type_:  Model CarBrand (All field of car_brand table)
     """    
-    list_car_brand = db.query(CarBrand).filter(CarBrand.name == car_brand_name).first()
+    list_car_brand = db.query(CarBrand.id, \
+                        CarBrand.name, \
+                        CarBrand.logo, \
+                        CarBrand.description, \
+                        CarBrand.status, \
+                        CarBrand.create_at, \
+                        CarBrand.update_at,
+                        func.count(CarModel.id).label("count_model")) \
+                .join(CarModel,CarBrand.id == CarModel.car_brand_id, isouter=True) \
+                .filter(CarBrand.name == car_brand_name) \
+                .group_by(CarBrand.id, \
+                        CarBrand.name, \
+                        CarBrand.logo, \
+                        CarBrand.description, \
+                        CarBrand.status, \
+                        CarBrand.create_at, \
+                        CarBrand.update_at) \
+                .order_by(asc(CarBrand.name)) \
+                .first()
+
     if list_car_brand is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car brand is not exists")
 

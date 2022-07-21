@@ -2,3 +2,7 @@
 
 html, body { height: 100%; }
 body { font-family: 'Source Sans Pro', sans-serif;}
+
+.modal-form .mat-dialog-container {
+    padding: 0 !important;
+}

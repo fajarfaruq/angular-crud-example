@@ -1,1 +1,95 @@
-<p>add-car-brands works!</p>
+<div class="font-poppins">
+  <div class="inline-flex space-x-96 items-center justify-between px-6 py-4 bg-gray-50 shadow-inner"
+    style="width: 600px; height: 82px;">
+    <div class="inline-flex flex-col space-y-1 items-start justify-start w-64">
+      <p class="text-base font-semibold leading-normal text-gray-800">Add Car Brand</p>
+      <p class="w-full text-sm leading-snug text-gray-600">Setup new car brand</p>
+    </div>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial class="relative w-8 h-8">
+      <div class="w-8 h-8 bg-gray-100 border rounded-full border-gray-200"></div>
+      <img class="w-6 h-6 absolute left-1 top-1 rounded-lg" src="./assets/img/icon/carbon-close.png" />
+    </button>
+  </div>
+
+  <mat-dialog-content>
+    <div class="w-100 h-100 p-6">
+      <div class="inline-flex flex-col space-y-4 items-start justify-start">
+        <div class="inline-flex items-center justify-start py-3 bg-white w-100" style="height: 48px;">
+          <p class="text-sm font-semibold leading-normal text-gray-800">Brand Logo</p>
+        </div>
+        <div
+          class="inline-flex items-center justify-center w-28 h-28 py-8 px-6 bg-gray-50 border border-dashed rounded-full border-gray-200">
+          <div class="inline-flex flex-col space-y-1 items-center justify-start">
+            <img class="w-8 h-8 rounded-lg" src="./assets/img/icon/carbon-add-black.png" />
+            <p class="text-xs font-medium leading-tight text-center text-gray-500">Brand Logo</p>
+          </div>
+        </div>
+      </div>
+      <div class="inline-flex flex-col space-y-4 items-start justify-start mt-4">
+        <div class="inline-flex items-center justify-start py-3 bg-white" style="width: 552px; height: 48px;">
+          <p class="text-sm font-semibold leading-normal text-gray-800">Brand Details</p>
+        </div>
+        <div class="inline-flex space-x-8 items-start justify-start" style="width: 403px; height: 66px;">
+          <div class="inline-flex flex-col space-y-1 items-start justify-start w-60 h-full">
+            <p class="w-full text-sm leading-snug text-gray-500">Brand Name</p>
+            <input type="text" placeholder="Input Content"
+              class="inline-flex items-center justify-start w-full flex-1 py-2 pl-3.5 pr-32 bg-white border rounded border-gray-200">
+          </div>
+          <div class="inline-flex flex-col space-y-2.5 items-start justify-start">
+            <p class="w-28 text-sm leading-snug text-gray-500">Brand Status</p>
+            <div
+              class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full cursor-pointer"
+              mat-button [matMenuTriggerFor]="menuBrandStatus">
+              <div class="w-4 h-2/3">
+                <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-checked.png" />
+              </div>
+              <p class="text-base font-medium leading-normal text-green-700 m-0">Active</p>
+              <img class="w-6 h-full rounded-lg" src="./assets/img/icon/ic_baseline-keyboard-arrow-down.png" />
+            </div>
+            <mat-menu #menuBrandStatus="matMenu">
+              <button mat-menu-item>
+                <div
+                  class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full cursor-pointer">
+                  <div class="w-4 h-2/3">
+                    <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-checked.png" />
+                  </div>
+                  <p class="text-base font-medium leading-normal text-green-700 m-0">Active</p>
+                </div>
+              </button>
+              <button mat-menu-item>
+                <div class="inline-flex space-x-2 items-center justify-center px-3 py-1 rounded-full cursor-pointer">
+                  <div class="w-4 h-2/3">
+                    <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-unchecked.png" />
+                  </div>
+                  <p class="text-base font-medium leading-normal text-gray-700 m-0">Inactive</p>
+                </div>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        <div class="flex flex-col space-y-1 items-start justify-start" style="width: 552px; height: 126px;">
+          <p class="text-sm leading-snug text-gray-500" style="width: 552px;">Brand Description</p>
+          <textarea placeholder="Input Content"
+            class="inline-flex items-start justify-start pl-3.5 pr-96 pt-2 pb-16 bg-white border rounded border-gray-200"
+            style="width: 552px; height: 100px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <div class="inline-flex space-x-3 items-start justify-start p-4">
+      <button mat-button mat-dialog-close
+        class="flex items-center justify-start px-4 py-2 bg-white border rounded border-gray-400">
+        <div class="flex space-x-3 items-center justify-start">
+          <p class="text-sm font-medium leading-snug text-gray-800">Cancel</p>
+        </div>
+      </button>
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial
+        class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+        <div class="flex space-x-3 items-center justify-start">
+          <p class="text-sm font-medium leading-snug text-white">Create Brand</p>
+        </div>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

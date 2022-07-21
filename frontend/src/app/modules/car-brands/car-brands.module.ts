@@ -5,8 +5,9 @@ import { DetailCarBrandsComponent } from './detail-car-brands/detail-car-brands.
 import { AddCarBrandsComponent } from './add-car-brands/add-car-brands.component';
 import { EditCarBrandsComponent } from './edit-car-brands/edit-car-brands.component';
 import { DeleteCarBrandsComponent } from './delete-car-brands/delete-car-brands.component';
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,19 @@ import { DeleteCarBrandsComponent } from './delete-car-brands/delete-car-brands.
     DeleteCarBrandsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatSelectModule,
+  ],
+  exports:[
+    ListCarBrandsComponent,
+    DetailCarBrandsComponent,
+    AddCarBrandsComponent,
+    EditCarBrandsComponent,
+    DeleteCarBrandsComponent
   ]
 })
-export class CarBrandsModule { }
+export class CarBrandsModule { 
+  
+}
