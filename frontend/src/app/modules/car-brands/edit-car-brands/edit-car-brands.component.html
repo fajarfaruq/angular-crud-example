@@ -4,74 +4,85 @@
     <p class="text-2xl font-semibold leading-loose text-gray-700">Brand Details</p>
 </div>
 <div class="inline-flex flex-col space-y-4 items-start justify-start w-full">
-    <div class="inline-flex items-center justify-start py-3 bg-white" style="width: 552px; height: 48px;">
+    <div class="inline-flex items-center justify-start py-3 bg-white">
         <p class="text-sm font-semibold leading-normal text-gray-800">Brand Logo</p>
     </div>
-    <div class="inline-flex items-center justify-center w-28 h-28 py-12 px-4 bg-white rounded-full">
-        <div class="flex items-center justify-center flex-1 h-full">
-            <div class="inline-flex flex-col items-start justify-start flex-1 h-full">
-                <div class="w-2 h-1.5 bg-green-500 rounded-full"></div>
-                <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                <img class="w-full h-2/3 rounded-lg"
-                    src="https://via.placeholder.com/88.03741455078125x16.072261810302734" />
+    <div class="inline-flex items-center justify-center w-28 h-28 py-12 px-4 bg-white rounded-full" (click)="openUploadLogoDialog()">
+        <div class="relative bg-white w-28 h-28">
+            <div class="inline-flex items-center justify-center w-28 h-28 z-10 bg-gray-800 rounded-full absolute cursor-pointer opacity-0 hover:opacity-75 duration-300">
+                <p class="flex-1 text-base font-semibold leading-normal text-center text-small text-white">CHANGE LOGO</p>
+            </div>
+            <div class="inline-flex items-center justify-center w-28 h-28 rounded-full">
+                <img class="w-full p-2 rounded-lg cursor-pointer" [src]="imageLogoUrl" />
             </div>
         </div>
+        <input type="file" id="inputUploadLogo" (change)="onChangeUploadLogo($event)" class="hidden" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
     </div>
 </div>
-<div class="inline-flex flex-col space-y-4 items-start justify-start" style="width: 552px; height: 272px;">
-    <div class="inline-flex items-center justify-start py-3 bg-white" style="width: 552px; height: 48px;">
-        <p class="text-sm font-semibold leading-normal text-gray-800">Brand Details</p>
-    </div>
-    <div class="inline-flex space-x-8 items-start justify-start" style="width: 403px; height: 66px;">
-        <div class="inline-flex flex-col space-y-1 items-start justify-start w-60 h-full">
-            <p class="w-full text-sm leading-snug text-gray-500">Brand Name</p>
-            <input type="text"
-                class="inline-flex items-center justify-start w-full flex-1 py-2 pl-3.5 pr-32 bg-white border rounded border-gray-200">
+<form [formGroup]="carBrandForm" (ngSubmit)="updateCarBrand()">
+    <div class="inline-flex flex-col space-y-4 items-start justify-start w-full">
+        <div class="inline-flex items-center justify-start py-3 bg-white">
+            <p class="text-sm font-semibold leading-normal text-gray-800">Brand Details</p>
         </div>
-        <div class="inline-flex flex-col space-y-2.5 items-start justify-start">
-            <p class="w-28 text-sm leading-snug text-gray-500">Brand Status</p>
-            <div class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full cursor-pointer"
-                mat-button [matMenuTriggerFor]="menuBrandStatus">
-                <div class="w-4 h-2/3">
-                    <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-checked.png" />
+        <div class="inline-flex space-x-8 items-start justify-start">
+            <div class="inline-flex flex-col space-y-1 items-start justify-start w-60 h-full">
+                <p class="w-full text-sm leading-snug text-gray-500">Brand Name</p>
+                <input type="text" formControlName="name"
+                    class="inline-flex items-center justify-start w-full flex-1 py-2 pl-3.5 pr-32 bg-white border rounded border-gray-200">
+                <label *ngIf="carBrandForm.get('name')?.invalid" [ngClass] = "'text-red-900 text-sm'"> Brand name is required </label>
+            </div>
+            <div class="inline-flex flex-col space-y-2.5 items-start justify-start">
+                <p class="w-28 text-sm leading-snug text-gray-500">Brand Status</p>
+                <div class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full cursor-pointer"
+                    mat-button [matMenuTriggerFor]="menuBrandStatus" *ngIf="carBrandDetails.status">
+                    <div class="w-4 h-2/3">
+                        <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-checked.png" />
+                    </div>
+                    <p class="text-base font-medium leading-normal text-green-700 m-0">Active</p>
+                    <img class="w-6 h-full rounded-lg" src="./assets/img/icon/ic_baseline-keyboard-arrow-down.png" />
                 </div>
-                <p class="text-base font-medium leading-normal text-green-700 m-0">Active</p>
-                <img class="w-6 h-full rounded-lg" src="./assets/img/icon/ic_baseline-keyboard-arrow-down.png" />
+                <div class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-gray-100 rounded-full cursor-pointer"
+                    mat-button [matMenuTriggerFor]="menuBrandStatus" *ngIf="!carBrandDetails.status">
+                    <div class="w-4 h-2/3">
+                        <img class="flex-1 h-full rounded-full" src="./assets/img/icon/mdi-radio-button-unchecked.png" />
+                    </div>
+                    <p class="text-base font-medium leading-normal text-gray-700 m-0">Inactive</p>
+                    <img class="w-6 h-full rounded-lg" src="./assets/img/icon/ic_baseline-keyboard-arrow-down.png" />
+                </div>
+                <mat-menu #menuBrandStatus="matMenu">
+                    <button mat-menu-item (click)="onselectedCarBrandStatus(true)">
+                        <div
+                            class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full cursor-pointer">
+                            <div class="w-4 h-2/3">
+                                <img class="flex-1 h-full rounded-full"
+                                    src="./assets/img/icon/mdi-radio-button-checked.png" />
+                            </div>
+                            <p class="text-base font-medium leading-normal text-green-700 m-0">Active</p>
+                        </div>
+                    </button>
+                    <button mat-menu-item (click)="onselectedCarBrandStatus(false)">
+                        <div
+                            class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-gray-100 rounded-full cursor-pointer">
+                            <div class="w-4 h-2/3">
+                                <img class="flex-1 h-full rounded-full"
+                                    src="./assets/img/icon/mdi-radio-button-unchecked.png" />
+                            </div>
+                            <p class="text-base font-medium leading-normal text-gray-700 m-0">Inactive</p>
+                        </div>
+                    </button>
+                </mat-menu>
             </div>
-            <mat-menu #menuBrandStatus="matMenu">
-                <button mat-menu-item>
-                    <div
-                        class="inline-flex space-x-2 items-center justify-center px-3 py-1 bg-green-100 rounded-full cursor-pointer">
-                        <div class="w-4 h-2/3">
-                            <img class="flex-1 h-full rounded-full"
-                                src="./assets/img/icon/mdi-radio-button-checked.png" />
-                        </div>
-                        <p class="text-base font-medium leading-normal text-green-700 m-0">Active</p>
-                    </div>
-                </button>
-                <button mat-menu-item>
-                    <div
-                        class="inline-flex space-x-2 items-center justify-center px-3 py-1 rounded-full cursor-pointer">
-                        <div class="w-4 h-2/3">
-                            <img class="flex-1 h-full rounded-full"
-                                src="./assets/img/icon/mdi-radio-button-unchecked.png" />
-                        </div>
-                        <p class="text-base font-medium leading-normal text-gray-700 m-0">Inactive</p>
-                    </div>
-                </button>
-            </mat-menu>
+        </div>
+        <div class="flex flex-col space-y-1 items-start justify-start w-1/2">
+            <p class="text-sm leading-snug text-gray-500">Brand Description</p>
+            <textarea formControlName="description"
+                class="inline-flex items-start p-2 h-36 w-[32rem] justify-start bg-white border rounded border-gray-200 w-full"></textarea>
+            <label *ngIf="carBrandForm.get('description')?.invalid" [ngClass] = "'text-red-900 text-sm'"> Brand description is required </label>
         </div>
     </div>
-    <div class="flex flex-col space-y-1 items-start justify-start" style="width: 552px; height: 126px;">
-        <p class="text-sm leading-snug text-gray-500" style="width: 552px;">Brand Description</p>
-        <textarea
-            class="inline-flex items-start justify-start pl-3.5 pr-96 pt-2 pb-16 bg-white border rounded border-gray-200"
-            style="width: 552px; height: 100px;">
-        </textarea>
-    </div>
-</div>
-<button type="button" class="flex items-center px-4 py-2 bg-blue-700 rounded w-36">
-    <div class="flex space-x-3 items-center justify-start">
-        <p class="text-sm font-medium leading-snug text-white">Save Changes</p>
-    </div>
-</button>
+    <button type="submit" class="flex items-center px-4 py-2 bg-blue-700 rounded w-34 mt-5">
+        <div class="flex space-x-3 items-center justify-start">
+            <p class="text-sm font-medium leading-snug text-white">Save Changes</p>
+        </div>
+    </button>
+</form>

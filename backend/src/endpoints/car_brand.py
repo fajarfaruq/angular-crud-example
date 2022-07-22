@@ -1,5 +1,7 @@
+import base64
 from operator import and_, or_
-from fastapi import FastAPI, APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, File, status, HTTPException,UploadFile
+import numpy as np
 from sqlalchemy.orm import Session
 from sqlalchemy import asc, exc, func
 from database import get_db
@@ -43,6 +45,7 @@ def get_all_car_brand(db: Session = Depends(get_db)):
                               CarBrand.update_at) \
                        .order_by(asc(CarBrand.name)) \
                        .all()
+    db.commit()
 
     return list_car_brand
 
@@ -79,6 +82,7 @@ def get_by_keyword(keyword: str, db: Session = Depends(get_db)):
                               CarBrand.update_at) \
                        .order_by(asc(CarBrand.name)) \
                        .all()
+    db.commit()
 
     return list_car_brand
 
@@ -114,6 +118,7 @@ def get_by_id(car_brand_id: int, db: Session = Depends(get_db)):
                             CarBrand.create_at, \
                             CarBrand.update_at) \
                     .first()
+    db.commit()
 
     if list_car_brand is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car brand is not exists")
@@ -153,6 +158,8 @@ def get_by_name(car_brand_name: str, db: Session = Depends(get_db)):
                         CarBrand.update_at) \
                 .order_by(asc(CarBrand.name)) \
                 .first()
+
+    db.commit()
 
     if list_car_brand is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car brand is not exists")
@@ -227,9 +234,8 @@ def update_a_brand(car_brand_id: int, details: CarBrandRequest, db: Session = De
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Car brand name already exists")    
 
     update_car_brand.name=details.name
-    update_car_brand.logo=details.logo
     update_car_brand.description=details.description
-    update_car_brand.status=update_car_brand.status
+    update_car_brand.status=details.status
     update_car_brand.update_at=datetime.now()
 
     try:
@@ -271,3 +277,31 @@ def delete_a_brand(car_brand_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=str(err))
 
     return delete_car_brand
+
+
+@router.patch("/upload-logo/{car_brand_id}")
+async def upload_logo(car_brand_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+
+    update_car_brand=db.query(CarBrand).filter(CarBrand.id==car_brand_id).first()
+
+    if update_car_brand is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car brand is not exists")
+
+    # SAVE FILE ORIGINAL
+    contents = await file.read()
+    encoded_img = base64.b64encode(contents).decode('utf-8')
+    if encoded_img != update_car_brand.logo :
+        update_car_brand.logo = encoded_img
+    
+    try:
+        db.commit()
+    except exc.IntegrityError as err:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=str(err))
+
+    update_car_brand=db.query(CarBrand).filter(CarBrand.id==car_brand_id).first()
+
+    return update_car_brand
+
+
+

@@ -34,6 +34,7 @@ def get_all_car_model(db: Session = Depends(get_db)):
                        .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
                        .order_by(asc(CarBrand.name)) \
                        .all()
+    db.commit()
 
     return list_car_model
 
@@ -64,7 +65,8 @@ def get_by_keyword(keyword: str, db: Session = Depends(get_db)):
                         )) \
                        .order_by(asc(CarBrand.name)) \
                        .all()
-                       
+    db.commit()
+
     if len(list_car_model) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
 
@@ -94,7 +96,8 @@ def get_by_brand_name(car_brand_name: str, db: Session = Depends(get_db)):
                        .filter(func.lower(CarBrand.name) == car_brand_name.lower()) \
                        .order_by(asc(CarBrand.name)) \
                        .all()
-                       
+    db.commit()
+
     if len(list_car_model) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
 
@@ -123,6 +126,7 @@ def get_by_id(car_model_id: int, db: Session = Depends(get_db)):
                     .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
                     .filter(CarModel.id == car_model_id) \
                     .first()
+    db.commit()
 
     if list_car_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
@@ -153,7 +157,8 @@ def get_by_name(car_model_name: str, db: Session = Depends(get_db)):
                 .join(CarBrand ,CarModel.car_brand_id == CarBrand.id) \
                 .filter(CarModel.name == car_model_name) \
                 .first()
-
+    db.commit()
+    
     if list_car_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car model is not exists")
 

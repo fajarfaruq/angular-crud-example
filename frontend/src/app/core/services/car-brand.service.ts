@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { CarBrand } from 'src/app/shared/models/car-brand';
 
@@ -13,18 +13,67 @@ export class CarBrandService {
   /*========================================
     CRUD Methods for consuming RESTful API
   =========================================*/
-  // Http Options
+  
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Control-Allow-Origin': '*',
     }),
   };
-  // HttpClient API get() method => Fetch employees list
+
+
   listAllCarBrand(): Observable<CarBrand> {
     return this.http
       .get<CarBrand>(this.apiURL + 'all')
       .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getCarBrand(id: any): Observable<CarBrand> {
+    return this.http
+      .get<CarBrand>(this.apiURL + 'filter-by-id/' + id)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  createCarBrand(carBrand: any): Observable<CarBrand> {
+    return this.http
+      .post<CarBrand>(
+        this.apiURL + 'create',
+        JSON.stringify(carBrand),
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  updateCarBrand(id: any, carBrand: any): Observable<CarBrand> {
+    return this.http
+      .put<CarBrand>(
+        this.apiURL + 'update/' + id,
+        JSON.stringify(carBrand),
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  deleteCarBrand(id: any) {
+    return this.http
+      .delete<CarBrand>(this.apiURL + id + '/delete', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  uploadLogo(id: any,file: File) {
+    let formData = new FormData();
+    formData.append("file", file);
+
+    const req = new HttpRequest(
+      "PATCH",
+      this.apiURL + "upload-logo/" + id ,
+      formData,
+      {
+        reportProgress: true
+      }
+    );
+
+    return this.http.request(req).pipe(retry(1), catchError(this.handleError));
   }
 
   // Error handling
@@ -35,7 +84,11 @@ export class CarBrandService {
       errorMessage = error.error.message;
     } else {
       // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      if(error.error){
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}\nDetail:${JSON.stringify(error.error)}`;
+      }else{
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}}`;
+      }
     }
     window.alert(errorMessage);
     return throwError(() => {

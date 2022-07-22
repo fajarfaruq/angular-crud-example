@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CarBrandService } from 'src/app/core/services/car-brand.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddCarBrandsComponent } from '../add-car-brands/add-car-brands.component';
@@ -9,7 +9,9 @@ import { AddCarBrandsComponent } from '../add-car-brands/add-car-brands.componen
   styleUrls: ['./list-car-brands.component.scss'],
 })
 export class ListCarBrandsComponent implements OnInit {
-  CarBrand: any = [];
+  enteredSearchCarBrand: string = '';
+  carBrandData: any = [];
+
   constructor(
     private carBrandService: CarBrandService,
     private dialog: MatDialog
@@ -21,7 +23,7 @@ export class ListCarBrandsComponent implements OnInit {
 
   listAllCarBrand() {
     return this.carBrandService.listAllCarBrand().subscribe((data: {}) => {
-      this.CarBrand = data;
+      this.carBrandData = data;
     });
   }
 

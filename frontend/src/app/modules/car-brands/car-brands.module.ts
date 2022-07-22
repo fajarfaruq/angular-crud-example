@@ -8,6 +8,8 @@ import { DeleteCarBrandsComponent } from './delete-car-brands/delete-car-brands.
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterCarBrandPipe } from 'src/app/shared/pipes/filter-car-brand.pipe';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,16 @@ import { MatSelectModule } from '@angular/material/select';
     DetailCarBrandsComponent,
     AddCarBrandsComponent,
     EditCarBrandsComponent,
-    DeleteCarBrandsComponent
+    DeleteCarBrandsComponent,
+    FilterCarBrandPipe
   ],
   imports: [
     CommonModule,
     MatDialogModule,
     MatMenuModule,
     MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports:[
     ListCarBrandsComponent,
