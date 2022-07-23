@@ -1,14 +1,19 @@
+// This part is using for import fonts source sans pro
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap');
 
-/* You can add global styles to this file, and also import other style files */
+/* This part is using for Tailwind configuration */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* This part using for custom CSS if needed */
 @layer base {
+    /* Define all body font with source sans pro */
     html {
         font-family: 'Source Sans Pro', sans-serif;
     }
+
+    /* Custom css for angular modal material */
     .modal-form {
         .mat-dialog-container {
             padding: 0px !important;

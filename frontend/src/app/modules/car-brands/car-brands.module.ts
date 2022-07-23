@@ -4,20 +4,21 @@ import { ListCarBrandsComponent } from './list-car-brands/list-car-brands.compon
 import { DetailCarBrandsComponent } from './detail-car-brands/detail-car-brands.component';
 import { AddCarBrandsComponent } from './add-car-brands/add-car-brands.component';
 import { EditCarBrandsComponent } from './edit-car-brands/edit-car-brands.component';
-import { DeleteCarBrandsComponent } from './delete-car-brands/delete-car-brands.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterCarBrandPipe } from 'src/app/shared/pipes/filter-car-brand.pipe';
 
+/**
+ * Ng module
+ */
 @NgModule({
   declarations: [
     ListCarBrandsComponent,
     DetailCarBrandsComponent,
     AddCarBrandsComponent,
     EditCarBrandsComponent,
-    DeleteCarBrandsComponent,
     FilterCarBrandPipe
   ],
   imports: [
@@ -32,10 +33,7 @@ import { FilterCarBrandPipe } from 'src/app/shared/pipes/filter-car-brand.pipe';
     ListCarBrandsComponent,
     DetailCarBrandsComponent,
     AddCarBrandsComponent,
-    EditCarBrandsComponent,
-    DeleteCarBrandsComponent
+    EditCarBrandsComponent
   ]
 })
-export class CarBrandsModule { 
-  
-}
+export class CarBrandsModule { }

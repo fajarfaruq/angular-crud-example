@@ -1,3 +1,4 @@
+/* This file using for tailwind configuration you can see tailwind with angular implemetation */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

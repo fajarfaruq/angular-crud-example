@@ -1,4 +1,7 @@
 export interface CarBrand {
+    /**
+     * Using for interface will be needed for filled API response 
+     */
     id : String;
     name : String;
     logo : String;

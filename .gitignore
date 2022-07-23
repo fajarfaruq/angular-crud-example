@@ -9,3 +9,6 @@ __pycache__/
 
 # Ignore .env
 .env
+
+# Ignore .env
+app.config.json

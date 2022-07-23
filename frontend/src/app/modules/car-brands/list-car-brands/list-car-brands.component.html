@@ -1,6 +1,9 @@
 <div class="inline-flex flex-col items-start justify-start w-full mt-2">
+    {{ '' // ------- Header toolbar begin here }}
     <div class="inline-flex space-x-2 items-center justify-start">
         <b class="text-xl font-bolder">CAR BRANDS LIST</b>
+
+        {{ '' // ------- Dropdown filter begin here }}
         <div class="flex items-center justify-start px-4 py-2 bg-white rounded">
             <div class="flex space-x-3 items-center justify-start cursor-pointer" mat-button
                 [matMenuTriggerFor]="menuFilter">
@@ -14,14 +17,20 @@
                 <button mat-menu-item>Number of Models</button>
             </mat-menu>
         </div>
+        {{ '' //  Dropdown filter end here -------- }}
+
+        {{ '' // ------- Search box begin here }}
         <div class="inline-flex flex-col items-start justify-center w-60 px-4 py-2 bg-gray-100 rounded-full">
             <div class="inline-flex space-x-2 items-center justify-center">
                 <img class="w-6 h-full rounded-lg" src="./assets/img/icon/search.png" />
                 <p class="text-sm leading-snug text-gray-500">
+                    {{ '' //  Searchbox input with enteredSearchCarBrand variable }}
                     <input type="text" class="p-1 w-44 bg-transparent" placeholder="Search car brand" [(ngModel)]="enteredSearchCarBrand"/>
                 </p>
             </div>
         </div>
+        {{ '' //  Search box end here -------- }}
+
         <button type="button" mat-button (click)="openDialogAddCarBrands()"
             class="inline-block px-4 py-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out absolute right-10 mt-3">
             <div class="inline-flex space-x-2 items-center">
@@ -30,8 +39,12 @@
             </div>
         </button>
     </div>
+    {{ '' //  Header toolbar end here -------- }}
 </div>
+
+{{ '' // ------- Car brand list begin here }}
 <div class="inline-flex flex-col items-start justify-start w-full mt-4">
+    {{ '' // Car brand list loop with pipe filterCarBrand and enteredSearchCarBrand filter }}
     <div *ngFor="let carBrand of carBrandData | filterCarBrand:enteredSearchCarBrand"
         class="inline-flex space-x-14 items-center justify-start py-2 px-6 bg-white w-full border-b-2 border-gray-100">
         <div class="w-6 h-6 rounded-full">
@@ -45,6 +58,7 @@
         <div class="inline-flex flex-col space-y-1 items-start justify-start w-58">
             <p class="text-xl font-medium leading-loose text-gray-700">{{ carBrand.name }}</p>
             <div class="inline-flex space-x-4 items-center justify-start">
+                {{ '' // Format string length if has length more than 20 continue with ... }}
                 <p class="text-sm leading-snug text-gray-500 w-36">{{ (carBrand.description.length>20)?
                     (carBrand.description | slice:0:20)+'..':(carBrand.description) }}</p>
                 <div class="w-0.5 h-4 bg-gray-200"></div>
@@ -53,6 +67,7 @@
         </div>
         <div class="inline-flex flex-col space-y-3 items-start justify-start w-24">
             <p class="text-sm font-medium leading-snug text-gray-700">Last Update</p>
+            {{ '' // Format date as dd-MM-yyy , ex : 23-07-2022 }}
             <p class="text-sm leading-snug text-gray-500">{{carBrand.update_at | date:'dd-MM-yyyy'}}</p>
         </div>
         <div class="flex space-x-2 items-center justify-center px-5 py-2 bg-gray-50 w-36 rounded">
@@ -65,9 +80,11 @@
                 <p class="text-base font-medium leading-normal text-gray-700">Inactive</p>
             </ng-container>
         </div>
+        {{ '' // Views details button if clicked going to details car brand page }}
         <a href="car-brands/detail/{{ carBrand.id }}"
             class="flex items-center justify-center w-32 px-4 py-2 bg-white border rounded border-gray-400 hover:bg-gray-200 hover:shadow-lg focus:bg-gray-200 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-300 active:shadow-sm transition duration-150 ease-in-out">
             <p class="text-sm font-medium leading-snug text-gray-800">View Details</p>
         </a>
     </div>
 </div>
+{{ '' //  Car brand list end here -------- }}
