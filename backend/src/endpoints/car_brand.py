@@ -1,7 +1,6 @@
 import base64
 from operator import and_, or_
 from fastapi import APIRouter, Depends, File, status, HTTPException,UploadFile
-import numpy as np
 from sqlalchemy.orm import Session
 from sqlalchemy import asc, exc, func
 from database import get_db
@@ -281,15 +280,30 @@ def delete_a_brand(car_brand_id: int, db: Session = Depends(get_db)):
 
 @router.patch("/upload-logo/{car_brand_id}")
 async def upload_logo(car_brand_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """function upload_logo using for upload brand logo 
 
+    Args:
+        car_brand_id (int): Parameter car brand id
+        file (UploadFile, optional): Upload file parameter. Defaults to File(...).
+        db (Session, optional): Call db session. Defaults to Depends(get_db).
+
+    Raises:
+        HTTPException: _description_
+        HTTPException: _description_
+
+    Returns:
+        _type_: Model CarBrand (All field of car_brand table)
+    """    
     update_car_brand=db.query(CarBrand).filter(CarBrand.id==car_brand_id).first()
 
     if update_car_brand is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Car brand is not exists")
 
-    # SAVE FILE ORIGINAL
+    # Read upload data content
     contents = await file.read()
+    # Convert upload contents as base64 must decode with utf-8 
     encoded_img = base64.b64encode(contents).decode('utf-8')
+    # If encode_img same with current logo do not update
     if encoded_img != update_car_brand.logo :
         update_car_brand.logo = encoded_img
     
