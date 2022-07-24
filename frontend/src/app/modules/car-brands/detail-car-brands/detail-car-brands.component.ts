@@ -41,6 +41,7 @@ export class DetailCarBrandsComponent implements OnInit {
   ngOnInit(): void {
     this.carBrandService.getCarBrand(this.id).subscribe((data: {}) => {
       this.carBrandData = data;
+      this.carBrandData.logo = "data:image/png;base64," + this.carBrandData.logo;
     });
   }
 
