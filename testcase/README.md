@@ -6,8 +6,8 @@ This repository using for UCARS test case
 
 ## File description
 
-- UcarsTestCase.xls for test case scenario
-- Backend API Test.postman_collection.json is import file for test backend API using Postman
-- mazda.png & toyota.png is image sample data 
-
-
+| File | Description |
+| ------ | ------ |
+| UcarsTestCase.xls | For test case scenario |
+| Backend API Test.postman_collection.json | The import file for test backend API using Postman |
+| mazda.png & toyota.png is  | Sample data image  |
