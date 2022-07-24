@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-    image: postgres:11
+    image: postgres:14
     restart: always
     ports:
       - "5432:5432"
@@ -12,6 +12,8 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_DATABASE_NAME}
+    healthcheck:
+      test: pg_isready -U postgres
   web:
     build: .
     command: /bin/sh -c "python main.py"
@@ -20,7 +22,8 @@ services:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
-      - db
-
+      db:
+        condition: service_healthy
+      
 volumes:
   postgresql-data:
