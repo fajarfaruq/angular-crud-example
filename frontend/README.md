@@ -10,7 +10,7 @@ Install frontend UCARS
 
 ```bash
   cd src
-  cp app.config.json.example config.json.example  --> (config.json.example can modify as needed)
+  cp app.config.json.example app.config.json  --> (app.config.json can modify as needed)
   cd ..
 ```
 

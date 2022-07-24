@@ -17,11 +17,11 @@ Install backend UCARS
 To deploy this project run
 
 ```bash
-  docker-compose build
+  docker-compose build --no-cache
 
   docker-compose run web alembic upgrade head
 
-  docker-compose up
+  docker-compose up -d
 
   (Backend is running according to .env settings)
 

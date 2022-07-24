@@ -22,11 +22,11 @@ Install backend UCARS
 To deploy this project run
 
 ```bash
-  docker-compose build
+  docker-compose build --no-cache
 
   docker-compose run web alembic upgrade head
 
-  docker-compose up
+  docker-compose up -d
 
   (Backend is running according to .env settings)
 
@@ -47,7 +47,7 @@ Install frontend UCARS
 ```bash
   cd frontend
   cd src
-  cp app.config.json.example config.json.example  --> (config.json.example can modify as needed)
+  cp app.config.json.example app.config.json  --> (app.config.json can modify as needed)
   cd ..
 ```
 
