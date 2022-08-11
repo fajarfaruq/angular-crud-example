@@ -1,12 +1,12 @@
 
-# ucars-technical-test backend
+# angular-crud-example backend
 
-This repository using for backend UCARS technical test 
+This repository using for backend Angular CRUD Example
 
 
 ## Installation
 
-Install backend UCARS
+Install backend Angular Crud Example
 
 ```bash
   cp .env.example .env  --> (.env can modify as needed)
