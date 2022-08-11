@@ -1,16 +1,16 @@
 
-# ucars-technical-test
+# angular-crud-example
 
-This repository using for UCARS technical test 
+This repository using for Angular CRUD Example
 
 
-To install the UCARS technical test, you can follow these steps:
+To install the Angular Crud Example, you can follow these steps:
 
 ### 1. Backend
 
 ## Installation
 
-Install backend UCARS
+Install backend Angular Crud Example
 
 ```bash
   cd backend
