@@ -1,12 +1,12 @@
 
-# ucars-technical-test frontend
+# angular-crud-example frontend
 
-This repository using for frontend UCARS technical test 
+This repository using for frontend Angular CRUD Example
 
 
 ## Installation
 
-Install frontend UCARS
+Install frontend Angular CRUD Example
 
 ```bash
   cd src
