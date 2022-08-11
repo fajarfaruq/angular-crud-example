@@ -10,7 +10,7 @@ To install the Angular Crud Example, you can follow these steps:
 
 ## Installation
 
-Install backend Angular Crud Example
+Install backend Angular CRUD example
 
 ```bash
   cd backend
@@ -42,7 +42,7 @@ To deploy this project run
 ### 3. Frontend
 ## Installation
 
-Install frontend UCARS
+Install frontend Angular CRUD example
 
 ```bash
   cd frontend
